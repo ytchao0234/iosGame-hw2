@@ -11,6 +11,10 @@
 		0389A37727EF04BC0007A24F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0389A37627EF04BC0007A24F /* ContentView.swift */; };
 		0389A37927EF04C00007A24F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0389A37827EF04C00007A24F /* Assets.xcassets */; };
 		0389A37C27EF04C00007A24F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0389A37B27EF04C00007A24F /* Preview Assets.xcassets */; };
+		0389A38327EF06ED0007A24F /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0389A38227EF06ED0007A24F /* Letter.swift */; };
+		0389A38527EF382E0007A24F /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0389A38427EF382E0007A24F /* Word.swift */; };
+		0389A38727EF87F00007A24F /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0389A38627EF87F00007A24F /* Game.swift */; };
+		0389A38927EF88A60007A24F /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0389A38827EF88A60007A24F /* Keyboard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +23,10 @@
 		0389A37627EF04BC0007A24F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0389A37827EF04C00007A24F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0389A37B27EF04C00007A24F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0389A38227EF06ED0007A24F /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
+		0389A38427EF382E0007A24F /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		0389A38627EF87F00007A24F /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		0389A38827EF88A60007A24F /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +61,10 @@
 			children = (
 				0389A37427EF04BC0007A24F /* WordleApp.swift */,
 				0389A37627EF04BC0007A24F /* ContentView.swift */,
+				0389A38227EF06ED0007A24F /* Letter.swift */,
+				0389A38427EF382E0007A24F /* Word.swift */,
+				0389A38627EF87F00007A24F /* Game.swift */,
+				0389A38827EF88A60007A24F /* Keyboard.swift */,
 				0389A37827EF04C00007A24F /* Assets.xcassets */,
 				0389A37A27EF04C00007A24F /* Preview Content */,
 			);
@@ -137,6 +149,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0389A38327EF06ED0007A24F /* Letter.swift in Sources */,
+				0389A38727EF87F00007A24F /* Game.swift in Sources */,
+				0389A38527EF382E0007A24F /* Word.swift in Sources */,
+				0389A38927EF88A60007A24F /* Keyboard.swift in Sources */,
 				0389A37727EF04BC0007A24F /* ContentView.swift in Sources */,
 				0389A37527EF04BC0007A24F /* WordleApp.swift in Sources */,
 			);
