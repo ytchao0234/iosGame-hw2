@@ -26,19 +26,21 @@ extension Word {
 }
 
 struct WordView: View {
-    var word: Word
+    @Binding var word: Word
 
     var body: some View {
         HStack {
-            ForEach(word.content) { letter in
-                LetterView(letter: letter, size: 30)
+            ForEach($word.content) { $letter in
+                LetterView(letter: $letter, size: 30)
             }
         }
     }
 }
 
 struct WordView_Previews: PreviewProvider {
+    @State static var word = Word("ABCDE")
+
     static var previews: some View {
-        WordView(word: Word("ABCDE"))
+        WordView(word: $word)
     }
 }

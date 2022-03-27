@@ -44,7 +44,7 @@ extension Letter {
 }
 
 struct LetterView: View {
-    let letter: Letter
+    @Binding var letter: Letter
     let size: CGFloat
 
     var body: some View {
@@ -58,7 +58,9 @@ struct LetterView: View {
 }
 
 struct LetterView_Previews: PreviewProvider {
+    @State static var letter = Letter("A")
+
     static var previews: some View {
-        LetterView(letter: Letter("A"), size: 30)
+        LetterView(letter: $letter, size: 30)
     }
 }

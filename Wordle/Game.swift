@@ -16,6 +16,7 @@ struct Game {
     var thisLetter: Int = 0
     var thisTurn: Int = 0
     var gameOver: Bool = false
+    var judgement: JUDGE = .NONE
     
     init(answer: String, answerLength: Int, guessTimes: Int) {
         self.answer = Word(answer)
@@ -28,6 +29,12 @@ struct Game {
     }
 }
 
+extension Game {
+    enum JUDGE {
+        case NONE, WIN, LOSE
+    }
+}
+
 struct GameView: View {
     @StateObject var game = GameViewModel()
 
@@ -35,8 +42,8 @@ struct GameView: View {
         VStack {
             Spacer()
 
-            ForEach(game.property.wordList) { word in
-                WordView(word: word)
+            ForEach($game.property.wordList) { $word in
+                WordView(word: $word)
             }
 
             Spacer()
@@ -83,10 +90,14 @@ class GameViewModel: ObservableObject {
         if property.thisLetter < property.answerLength {
             return
         }
+        
+        var correctCount = 0
 
         for idx in property.wordList[property.thisTurn].content.indices {
             if property.wordList[property.thisTurn].content[idx] == property.answer.content[idx] {
                 property.wordList[property.thisTurn].content[idx].judge = .CORRECT
+                
+                correctCount += 1
             }
             else if property.answer.content.contains(property.wordList[property.thisTurn].content[idx]) {
                 property.wordList[property.thisTurn].content[idx].judge = .WRONG
@@ -96,11 +107,18 @@ class GameViewModel: ObservableObject {
             }
         }
         
-//        property.thisLetter = 0
-//        property.thisTurn += 1
-//        
-//        if property.thisTurn >= property.guessTimes {
-//            property.gameOver = true
-//        }
+        if correctCount == property.answerLength {
+            property.gameOver = true
+            property.judgement = .WIN
+        }
+        else {
+            property.thisLetter = 0
+            property.thisTurn += 1
+            
+            if property.thisTurn >= property.guessTimes {
+                property.gameOver = true
+                property.judgement = .LOSE
+            }
+        }
     }
 }
