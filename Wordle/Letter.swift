@@ -29,15 +29,11 @@ struct Letter: Identifiable, Equatable {
             return Letter.colorList[3]
         }
     }
-    
-    static func ==(lhs: Letter, rhs: Letter) -> Bool {
-        return lhs.content == rhs.content
-    }
 }
 
 extension Letter {
-    enum JUDGE {
-        case NONE, FAILED, WRONG, CORRECT
+    enum JUDGE: Int {
+        case NONE = 0, FAILED = 1, WRONG = 2, CORRECT = 3
     }
 
     static var colorList: Array<Color> = [.clear, .gray, .yellow, .green]

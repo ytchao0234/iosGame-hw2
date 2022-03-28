@@ -63,6 +63,7 @@ struct GameView_Previews: PreviewProvider {
 
 class GameViewModel: ObservableObject {
     @Published var property: Game = Game(answer: "ABCDE", answerLength: 5, guessTimes: 7)
+    @Published var keyboard: Keyboard = Keyboard()
     
     func setLetter(_ letter: Character) {
         if property.thisLetter == property.answerLength {
@@ -94,12 +95,14 @@ class GameViewModel: ObservableObject {
         var correctCount = 0
 
         for idx in property.wordList[property.thisTurn].content.indices {
-            if property.wordList[property.thisTurn].content[idx] == property.answer.content[idx] {
+            let guessLetter = property.wordList[property.thisTurn].content[idx]
+            let answerLetter = property.answer.content[idx]
+
+            if guessLetter.content == answerLetter.content {
                 property.wordList[property.thisTurn].content[idx].judge = .CORRECT
-                
                 correctCount += 1
             }
-            else if property.answer.content.contains(property.wordList[property.thisTurn].content[idx]) {
+            else if property.answer.content.firstIndex(where: {$0.content == guessLetter.content}) != nil {
                 property.wordList[property.thisTurn].content[idx].judge = .WRONG
             }
             else {
@@ -107,18 +110,25 @@ class GameViewModel: ObservableObject {
             }
         }
         
+        for letter in property.wordList[property.thisTurn].content {
+            for (idx, list) in keyboard.content.enumerated() {
+                if let i = list.firstIndex(where: { $0.content == letter.content }),
+                   list[i].judge.rawValue < letter.judge.rawValue {
+                    keyboard.content[idx][i] = letter
+                }
+            }
+        }
+        
+        property.thisLetter = 0
+        property.thisTurn += 1
+
         if correctCount == property.answerLength {
             property.gameOver = true
             property.judgement = .WIN
         }
-        else {
-            property.thisLetter = 0
-            property.thisTurn += 1
-            
-            if property.thisTurn >= property.guessTimes {
-                property.gameOver = true
-                property.judgement = .LOSE
-            }
+        else if property.thisTurn >= property.guessTimes {
+            property.gameOver = true
+            property.judgement = .LOSE
         }
     }
 }

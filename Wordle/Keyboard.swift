@@ -8,27 +8,38 @@
 import SwiftUI
 
 struct Keyboard {
-    var English = [Array("QWERTYUIOP"), Array("ASDFGHJKL"), Array("ZXCVBNM")]
+    var content: Array<Array<Letter>>
     var maxCount: Int
     
-    init() {
-        self.maxCount = self.English[0].count
-        
-        for list in self.English {
+    init(_ type: TYPE = .ENGLISH) {
+        switch(type) {
+        case .ENGLISH:
+            self.content = Keyboard.english
+        }
+
+        self.maxCount = self.content[0].count
+
+        for list in self.content {
             self.maxCount = (list.count > self.maxCount) ? list.count : self.maxCount
         }
     }
 }
 
+extension Keyboard {
+    enum TYPE {
+        case ENGLISH
+    }
+    static let english = [Word("QWERTYUIOP").content, Word("ASDFGHJKL").content, Word("ZXCVBNM").content]
+}
+
 struct KeyboardView: View {
-    var keyboard = Keyboard()
     @ObservedObject var game: GameViewModel
 
     var body: some View {
         VStack {
-            ForEach(keyboard.English, id: \.self) { list in
-                let isLast = list == keyboard.English.last
-                KeyRow(game: game, content: list, isLast: isLast)
+            ForEach(game.keyboard.content.indices) { rowIdx in
+                let isLast = rowIdx == game.keyboard.content.count - 1
+                KeyRow(game: game, rowIdx: rowIdx, isLast: isLast)
                     .padding(.bottom, 5)
             }
         }
@@ -36,8 +47,6 @@ struct KeyboardView: View {
 }
 
 struct KeyboardView_Previews: PreviewProvider {
-    @State static var letter = Letter(" ")
-
     static var previews: some View {
         KeyboardView(game: GameViewModel())
     }
@@ -45,10 +54,11 @@ struct KeyboardView_Previews: PreviewProvider {
 
 struct KeyRow: View {
     @ObservedObject var game: GameViewModel
-    let content: Array<Character>
+    let rowIdx: Int
     let isLast: Bool
 
     var body: some View {
+
         HStack {
             if isLast {
                 Button {
@@ -60,13 +70,13 @@ struct KeyRow: View {
                 }
             }
 
-            ForEach(content, id: \.self) { letter in
+            ForEach(game.keyboard.content[rowIdx]) { letter in
                 Button {
-                    game.setLetter(letter)
+                    game.setLetter(letter.content)
                 } label: {
-                    Text(String(letter))
+                    Text(String(letter.content))
                         .font(.system(size: 20, weight: .regular, design: .monospaced))
-                        .modifier(KeyModifier())
+                        .modifier(KeyModifier(letter: letter))
                 }
             }
 
@@ -84,13 +94,24 @@ struct KeyRow: View {
 }
 
 struct KeyModifier: ViewModifier {
+    var letter: Letter = Letter(" ")
+
+    var color: Color {
+        if letter.judge != .NONE {
+            return letter.getColor()
+        }
+        else {
+            return Color.blue.opacity(0.5)
+        }
+    }
+
     func body(content: Content) -> some View {
         let size = UIScreen.main.bounds.width * 0.8 / 10
 
         content
             .foregroundColor(Color("plainColor"))
             .frame(width: size, height: size)
-            .background(.secondary)
+            .background(color)
             .cornerRadius(5)
     }
 }
