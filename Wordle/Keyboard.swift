@@ -23,6 +23,17 @@ struct Keyboard {
             self.maxCount = (list.count > self.maxCount) ? list.count : self.maxCount
         }
     }
+    
+    mutating func updating(src: Array<Letter>) {
+        for letter in src {
+            for (idx, list) in content.enumerated() {
+                if let i = list.firstIndex(where: { $0.content == letter.content }),
+                   list[i].judge.rawValue < letter.judge.rawValue {
+                    content[idx][i] = letter
+                }
+            }
+        }
+    }
 }
 
 extension Keyboard {

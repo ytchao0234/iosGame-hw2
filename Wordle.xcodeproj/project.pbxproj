@@ -15,6 +15,8 @@
 		0389A38527EF382E0007A24F /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0389A38427EF382E0007A24F /* Word.swift */; };
 		0389A38727EF87F00007A24F /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0389A38627EF87F00007A24F /* Game.swift */; };
 		0389A38927EF88A60007A24F /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0389A38827EF88A60007A24F /* Keyboard.swift */; };
+		03E87D812809B71200D5459A /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E87D802809B71200D5459A /* MenuBar.swift */; };
+		03E87D832809BD4B00D5459A /* SnellRoundhand.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 03E87D822809BD4B00D5459A /* SnellRoundhand.ttc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,9 @@
 		0389A38427EF382E0007A24F /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		0389A38627EF87F00007A24F /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		0389A38827EF88A60007A24F /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
+		03E87D802809B71200D5459A /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
+		03E87D822809BD4B00D5459A /* SnellRoundhand.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = SnellRoundhand.ttc; sourceTree = "<group>"; };
+		03E87D842809BD6800D5459A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,12 +64,15 @@
 		0389A37327EF04BC0007A24F /* Wordle */ = {
 			isa = PBXGroup;
 			children = (
+				03E87D842809BD6800D5459A /* Info.plist */,
+				03E87D822809BD4B00D5459A /* SnellRoundhand.ttc */,
 				0389A37427EF04BC0007A24F /* WordleApp.swift */,
 				0389A37627EF04BC0007A24F /* ContentView.swift */,
 				0389A38227EF06ED0007A24F /* Letter.swift */,
 				0389A38427EF382E0007A24F /* Word.swift */,
 				0389A38627EF87F00007A24F /* Game.swift */,
 				0389A38827EF88A60007A24F /* Keyboard.swift */,
+				03E87D802809B71200D5459A /* MenuBar.swift */,
 				0389A37827EF04C00007A24F /* Assets.xcassets */,
 				0389A37A27EF04C00007A24F /* Preview Content */,
 			);
@@ -138,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0389A37C27EF04C00007A24F /* Preview Assets.xcassets in Resources */,
+				03E87D832809BD4B00D5459A /* SnellRoundhand.ttc in Resources */,
 				0389A37927EF04C00007A24F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -154,6 +163,7 @@
 				0389A38527EF382E0007A24F /* Word.swift in Sources */,
 				0389A38927EF88A60007A24F /* Keyboard.swift in Sources */,
 				0389A37727EF04BC0007A24F /* ContentView.swift in Sources */,
+				03E87D812809B71200D5459A /* MenuBar.swift in Sources */,
 				0389A37527EF04BC0007A24F /* WordleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,6 +296,7 @@
 				DEVELOPMENT_TEAM = 963W6A297N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Wordle/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -315,6 +326,7 @@
 				DEVELOPMENT_TEAM = 963W6A297N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Wordle/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

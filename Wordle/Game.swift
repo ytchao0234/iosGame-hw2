@@ -18,7 +18,7 @@ struct Game {
     var gameOver: Bool = false
     var judgement: JUDGE = .NONE
     
-    init(answer: String, answerLength: Int, guessTimes: Int) {
+    init(answer: String = "", answerLength: Int = 5, guessTimes: Int = 6) {
         self.answer = Word(answer)
         self.answerLength = answerLength
         self.guessTimes = guessTimes
@@ -40,6 +40,13 @@ struct GameView: View {
 
     var body: some View {
         VStack {
+            MenuBar()
+
+            Text("Wordle")
+                .font(.custom("Snell Roundhand", size: 60))
+                .fontWeight(.heavy)
+            Text("guess an animal")
+            
             Spacer()
 
             ForEach($game.property.wordList) { $word in
@@ -52,6 +59,19 @@ struct GameView: View {
                 .padding(.bottom)
                 .disabled(game.property.gameOver)
         }
+        .background(
+            Image("background_eng")
+                .resizable()
+                .scaledToFill()
+                .clipped()
+                .ignoresSafeArea()
+        )
+        .alert(game.property.judgement == .WIN ? "Bingo!" : "answer:\n\(game.property.answer.source)", isPresented: $game.property.gameOver) {
+            Button("OK") {
+                game.restart()
+            }
+        }
+
     }
 }
 
@@ -62,20 +82,37 @@ struct GameView_Previews: PreviewProvider {
 }
 
 class GameViewModel: ObservableObject {
-    @Published var property: Game = Game(answer: "ABCDE", answerLength: 5, guessTimes: 7)
+    @Published var property: Game = Game()
     @Published var keyboard: Keyboard = Keyboard()
+//    let dataSource = ["animal3", "animal4", "animal5"]
+    
+    init() {
+        setAnswer()
+    }
+    
+    func restart() {
+        let current = property
+        property = Game(answer: current.answer.source)
+        keyboard = Keyboard()
+    }
+    
+    func setAnswer() {
+        var answer: String = ""
+
+        if let asset = NSDataAsset(name: "animal" + "\(property.answerLength)"),
+            let content = String(data: asset.data, encoding: .utf8) {
+            answer = String(content.split(separator: "\n").randomElement()!)
+        }
+        self.property = Game(answer: answer.uppercased())
+    }
     
     func setLetter(_ letter: Character) {
         if property.thisLetter == property.answerLength {
             return
         }
 
-        property.wordList[property.thisTurn].content[property.thisLetter].content = letter
+        property.wordList[property.thisTurn].setLetter(property.thisLetter, value: letter)
         property.thisLetter += 1
-        
-        if property.thisLetter > property.answerLength {
-            property.thisLetter = property.answerLength
-        }
     }
     
     func deleteLetter() {
@@ -83,8 +120,8 @@ class GameViewModel: ObservableObject {
             return
         }
 
-        property.wordList[property.thisTurn].content[property.thisLetter - 1].content = " "
         property.thisLetter -= 1
+        property.wordList[property.thisTurn].setLetter(property.thisLetter, value: " ")
     }
     
     func judge() {
@@ -93,31 +130,24 @@ class GameViewModel: ObservableObject {
         }
         
         var correctCount = 0
-
+        
         for idx in property.wordList[property.thisTurn].content.indices {
             let guessLetter = property.wordList[property.thisTurn].content[idx]
             let answerLetter = property.answer.content[idx]
 
             if guessLetter.content == answerLetter.content {
-                property.wordList[property.thisTurn].content[idx].judge = .CORRECT
+                property.wordList[property.thisTurn].setJudge(idx, value: .CORRECT)
                 correctCount += 1
             }
-            else if property.answer.content.firstIndex(where: {$0.content == guessLetter.content}) != nil {
-                property.wordList[property.thisTurn].content[idx].judge = .WRONG
+            else if property.answer.contains(guessLetter) {
+                property.wordList[property.thisTurn].setJudge(idx, value: .WRONG)
             }
             else {
-                property.wordList[property.thisTurn].content[idx].judge = .FAILED
+                property.wordList[property.thisTurn].setJudge(idx, value: .FAILED)
             }
         }
         
-        for letter in property.wordList[property.thisTurn].content {
-            for (idx, list) in keyboard.content.enumerated() {
-                if let i = list.firstIndex(where: { $0.content == letter.content }),
-                   list[i].judge.rawValue < letter.judge.rawValue {
-                    keyboard.content[idx][i] = letter
-                }
-            }
-        }
+        keyboard.updating(src: property.wordList[property.thisTurn].content)
         
         property.thisLetter = 0
         property.thisTurn += 1

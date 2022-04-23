@@ -1,0 +1,12 @@
+ape
+bat
+cat
+cow
+dog
+eel
+fox
+hen
+owl
+pig
+rat
+yak

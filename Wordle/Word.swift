@@ -9,12 +9,33 @@ import SwiftUI
 
 struct Word: Identifiable {
     let id = UUID()
+    var source: String = String()
     var content: Array<Letter> = [Letter]()
     
-    init(_ content: String) {
-        for letter in Array(content) {
+    init() {}
+    
+    init(_ source: String) {
+        self.source = source
+
+        for letter in Array(source) {
             self.content.append(Letter(letter))
         }
+    }
+    
+    mutating func setLetter(_ index: Int, value: Character) {
+        if index >= 0, index < content.count {
+            content[index].content = value
+        }
+    }
+    
+    mutating func setJudge(_ index: Int, value: Letter.JUDGE) {
+        if index >= 0, index < content.count {
+            content[index].judge = value
+        }
+    }
+    
+    func contains(_ value: Letter) -> Bool {
+        return content.firstIndex(where: {$0.content == value.content}) != nil
     }
 }
 
