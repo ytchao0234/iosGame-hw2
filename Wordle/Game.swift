@@ -132,19 +132,31 @@ class GameViewModel: ObservableObject {
         var correctCount = 0
         
         for idx in property.wordList[property.thisTurn].content.indices {
-            let guessLetter = property.wordList[property.thisTurn].content[idx]
-            let answerLetter = property.answer.content[idx]
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(idx) * 0.5) {
+                self.property.wordList[self.property.thisTurn].content[idx].angle = 89
 
-            if guessLetter.content == answerLetter.content {
-                property.wordList[property.thisTurn].setJudge(idx, value: .CORRECT)
-                correctCount += 1
+                let guessLetter = self.property.wordList[self.property.thisTurn].content[idx]
+                let answerLetter = self.property.answer.content[idx]
+
+                if guessLetter.content == answerLetter.content {
+                    self.property.wordList[self.property.thisTurn].setJudge(idx, value: .CORRECT)
+                    correctCount += 1
+                }
+                else if self.property.answer.contains(guessLetter) {
+                    self.property.wordList[self.property.thisTurn].setJudge(idx, value: .WRONG)
+                }
+                else {
+                    self.property.wordList[self.property.thisTurn].setJudge(idx, value: .FAILED)
+                }
+                
+                if idx > 0 {
+                    self.property.wordList[self.property.thisTurn].content[idx-1].angle = 0
+                }
             }
-            else if property.answer.contains(guessLetter) {
-                property.wordList[property.thisTurn].setJudge(idx, value: .WRONG)
-            }
-            else {
-                property.wordList[property.thisTurn].setJudge(idx, value: .FAILED)
-            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(property.wordList[property.thisTurn].content.count) * 0.5) {
+            self.property.wordList[self.property.thisTurn].content[self.property.wordList[self.property.thisTurn].content.count-1].angle = 0
         }
         
         keyboard.updating(src: property.wordList[property.thisTurn].content)

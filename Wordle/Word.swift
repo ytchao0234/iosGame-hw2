@@ -11,6 +11,7 @@ struct Word: Identifiable {
     let id = UUID()
     var source: String = String()
     var content: Array<Letter> = [Letter]()
+    var length: Int = 0
     
     init() {}
     
@@ -20,6 +21,8 @@ struct Word: Identifiable {
         for letter in Array(source) {
             self.content.append(Letter(letter))
         }
+        
+        self.length = self.content.count
     }
     
     mutating func setLetter(_ index: Int, value: Character) {

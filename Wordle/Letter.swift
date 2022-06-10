@@ -11,6 +11,7 @@ struct Letter: Identifiable, Equatable {
     var id = UUID()
     var content: Character = " "
     var judge: JUDGE = .NONE
+    var angle: Double = 0
 
     init(_ content: Character, judge: JUDGE = .NONE) {
         self.content = content
@@ -49,6 +50,8 @@ struct LetterView: View {
             .frame(width: size, height: size)
             .padding(10)
             .background(letter.getColor())
+            .rotation3DEffect(Angle(degrees: letter.angle), axis: (x: 1, y: 0, z: 0))
+            .animation(.easeOut(duration: 0.5), value: letter.angle)
             .overlay(Rectangle().stroke(Color("plainColor"), lineWidth: 3))
     }
 }
