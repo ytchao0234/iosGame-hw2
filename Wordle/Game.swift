@@ -101,7 +101,14 @@ class GameViewModel: ObservableObject {
 
         if let asset = NSDataAsset(name: "animal" + "\(property.answerLength)"),
             let content = String(data: asset.data, encoding: .utf8) {
-            answer = String(content.split(separator: "\n").randomElement()!)
+            let wordList = content.split(separator: "\n")
+            answer = String(wordList.randomElement()!)
+            
+            print("---- word list ---- (\(answer)) ----\n")
+            for (idx, _word) in wordList.enumerated() {
+                print(idx, _word)
+            }
+            print("\n--------")
         }
         self.property = Game(answer: answer.uppercased())
     }
@@ -132,45 +139,43 @@ class GameViewModel: ObservableObject {
         var correctCount = 0
         
         for idx in property.wordList[property.thisTurn].content.indices {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(idx) * 0.5) {
-                self.property.wordList[self.property.thisTurn].content[idx].angle = 89
+            self.property.wordList[self.property.thisTurn].content[idx].angle = 180
 
-                let guessLetter = self.property.wordList[self.property.thisTurn].content[idx]
-                let answerLetter = self.property.answer.content[idx]
+            let guessLetter = self.property.wordList[self.property.thisTurn].content[idx]
+            let answerLetter = self.property.answer.content[idx]
 
-                if guessLetter.content == answerLetter.content {
-                    self.property.wordList[self.property.thisTurn].setJudge(idx, value: .CORRECT)
-                    correctCount += 1
-                }
-                else if self.property.answer.contains(guessLetter) {
-                    self.property.wordList[self.property.thisTurn].setJudge(idx, value: .WRONG)
-                }
-                else {
-                    self.property.wordList[self.property.thisTurn].setJudge(idx, value: .FAILED)
-                }
-                
-                if idx > 0 {
-                    self.property.wordList[self.property.thisTurn].content[idx-1].angle = 0
-                }
+            if guessLetter.content == answerLetter.content {
+                self.property.wordList[self.property.thisTurn].setJudge(idx, value: .CORRECT)
+                correctCount += 1
+            }
+            else if self.property.answer.contains(guessLetter) {
+                self.property.wordList[self.property.thisTurn].setJudge(idx, value: .WRONG)
+            }
+            else {
+                self.property.wordList[self.property.thisTurn].setJudge(idx, value: .FAILED)
             }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + Double(property.wordList[property.thisTurn].content.count) * 0.5) {
-            self.property.wordList[self.property.thisTurn].content[self.property.wordList[self.property.thisTurn].content.count-1].angle = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            for idx in self.property.wordList[self.property.thisTurn].content.indices {
+                self.property.wordList[self.property.thisTurn].content[idx].angle = 0
+            }
+            
         }
         
-        keyboard.updating(src: property.wordList[property.thisTurn].content)
-        
-        property.thisLetter = 0
-        property.thisTurn += 1
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(self.property.answerLength) * 0.5) {
+            self.keyboard.updating(src: self.property.wordList[self.property.thisTurn].content)
+            self.property.thisLetter = 0
+            self.property.thisTurn += 1
 
-        if correctCount == property.answerLength {
-            property.gameOver = true
-            property.judgement = .WIN
-        }
-        else if property.thisTurn >= property.guessTimes {
-            property.gameOver = true
-            property.judgement = .LOSE
+            if correctCount == self.property.answerLength {
+                self.property.gameOver = true
+                self.property.judgement = .WIN
+            }
+            else if self.property.thisTurn >= self.property.guessTimes {
+                self.property.gameOver = true
+                self.property.judgement = .LOSE
+            }
         }
     }
 }

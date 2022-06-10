@@ -54,8 +54,9 @@ struct WordView: View {
 
     var body: some View {
         HStack {
-            ForEach($word.content) { $letter in
+            ForEach(Array($word.content.enumerated()), id: \.element.id) { idx, $letter in
                 LetterView(letter: $letter, size: 30)
+                    .animation(.easeOut(duration: 0.7).delay(Double(idx) * 0.5), value: letter.angle == 0)
             }
         }
     }

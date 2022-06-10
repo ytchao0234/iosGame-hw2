@@ -45,14 +45,17 @@ struct LetterView: View {
     let size: CGFloat
 
     var body: some View {
-        Text(String(letter.content))
-            .font(.title)
-            .frame(width: size, height: size)
-            .padding(10)
-            .background(letter.getColor())
-            .rotation3DEffect(Angle(degrees: letter.angle), axis: (x: 1, y: 0, z: 0))
-            .animation(.easeOut(duration: 0.5), value: letter.angle)
-            .overlay(Rectangle().stroke(Color("plainColor"), lineWidth: 3))
+        ZStack {
+            Text(letter.angle == 0 ? String(letter.content) : "")
+                .font(.title)
+                .frame(width: size, height: size)
+                .padding(10)
+                .background(letter.getColor())
+                .rotation3DEffect(Angle(degrees: letter.angle), axis: (x: 1, y: 0, z: 0))
+                .opacity(letter.angle == 0 ? 1 : 0.5)
+                .overlay(Rectangle().stroke(Color("plainColor"), lineWidth: 3))
+                .clipped()
+        }
     }
 }
 
