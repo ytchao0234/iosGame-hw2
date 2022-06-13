@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		032ED34B2854D0FD007A6AFC /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032ED34A2854D0FD007A6AFC /* HelpView.swift */; };
+		032ED34D2854D120007A6AFC /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032ED34C2854D120007A6AFC /* SummaryView.swift */; };
+		032ED34F2854D136007A6AFC /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032ED34E2854D136007A6AFC /* Setting.swift */; };
 		0389A37527EF04BC0007A24F /* WordleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0389A37427EF04BC0007A24F /* WordleApp.swift */; };
 		0389A37727EF04BC0007A24F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0389A37627EF04BC0007A24F /* ContentView.swift */; };
 		0389A37927EF04C00007A24F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0389A37827EF04C00007A24F /* Assets.xcassets */; };
@@ -20,6 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		032ED34A2854D0FD007A6AFC /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
+		032ED34C2854D120007A6AFC /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
+		032ED34E2854D136007A6AFC /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		0389A37127EF04BC0007A24F /* Wordle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wordle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0389A37427EF04BC0007A24F /* WordleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordleApp.swift; sourceTree = "<group>"; };
 		0389A37627EF04BC0007A24F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -68,11 +74,14 @@
 				03E87D822809BD4B00D5459A /* SnellRoundhand.ttc */,
 				0389A37427EF04BC0007A24F /* WordleApp.swift */,
 				0389A37627EF04BC0007A24F /* ContentView.swift */,
+				0389A38827EF88A60007A24F /* Keyboard.swift */,
 				0389A38227EF06ED0007A24F /* Letter.swift */,
 				0389A38427EF382E0007A24F /* Word.swift */,
 				0389A38627EF87F00007A24F /* Game.swift */,
-				0389A38827EF88A60007A24F /* Keyboard.swift */,
+				032ED34E2854D136007A6AFC /* Setting.swift */,
 				03E87D802809B71200D5459A /* MenuBar.swift */,
+				032ED34A2854D0FD007A6AFC /* HelpView.swift */,
+				032ED34C2854D120007A6AFC /* SummaryView.swift */,
 				0389A37827EF04C00007A24F /* Assets.xcassets */,
 				0389A37A27EF04C00007A24F /* Preview Content */,
 			);
@@ -159,10 +168,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0389A38327EF06ED0007A24F /* Letter.swift in Sources */,
+				032ED34F2854D136007A6AFC /* Setting.swift in Sources */,
 				0389A38727EF87F00007A24F /* Game.swift in Sources */,
+				032ED34D2854D120007A6AFC /* SummaryView.swift in Sources */,
 				0389A38527EF382E0007A24F /* Word.swift in Sources */,
 				0389A38927EF88A60007A24F /* Keyboard.swift in Sources */,
 				0389A37727EF04BC0007A24F /* ContentView.swift in Sources */,
+				032ED34B2854D0FD007A6AFC /* HelpView.swift in Sources */,
 				03E87D812809B71200D5459A /* MenuBar.swift in Sources */,
 				0389A37527EF04BC0007A24F /* WordleApp.swift in Sources */,
 			);

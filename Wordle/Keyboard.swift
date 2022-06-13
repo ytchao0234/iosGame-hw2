@@ -48,8 +48,8 @@ struct KeyboardView: View {
 
     var body: some View {
         VStack {
-            ForEach(game.keyboard.content.indices) { rowIdx in
-                let isLast = rowIdx == game.keyboard.content.count - 1
+            ForEach(game.keyboard[game.thisLength].content.indices) { rowIdx in
+                let isLast = rowIdx == game.keyboard[game.thisLength].content.count - 1
                 KeyRow(game: game, rowIdx: rowIdx, isLast: isLast)
                     .padding(.bottom, 5)
             }
@@ -76,18 +76,18 @@ struct KeyRow: View {
                     game.judge()
                 } label: {
                     Image(systemName: "paperplane.fill")
-                        .modifier(KeyModifier())
+                        .modifier(KeyModifier(letter: .constant(Letter(" "))))
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(.blue, lineWidth: 2))
                 }
             }
 
-            ForEach(game.keyboard.content[rowIdx]) { letter in
+            ForEach($game.keyboard[game.thisLength].content[rowIdx]) { $letter in
                 Button {
                     game.setLetter(letter.content)
                 } label: {
                     Text(String(letter.content))
                         .font(.system(size: 20, weight: .regular, design: .monospaced))
-                        .modifier(KeyModifier(letter: letter))
+                        .modifier(KeyModifier(letter: $letter))
                 }
             }
 
@@ -96,7 +96,7 @@ struct KeyRow: View {
                     game.deleteLetter()
                 } label: {
                     Image(systemName: "delete.left.fill")
-                        .modifier(KeyModifier())
+                        .modifier(KeyModifier(letter: .constant(Letter(" "))))
                         .overlay(RoundedRectangle(cornerRadius: 5).stroke(.blue, lineWidth: 2))
                 }
             }
@@ -105,7 +105,7 @@ struct KeyRow: View {
 }
 
 struct KeyModifier: ViewModifier {
-    var letter: Letter = Letter(" ")
+    @Binding var letter: Letter
 
     var color: Color {
         if letter.judge != .NONE {

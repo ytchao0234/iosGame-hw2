@@ -51,11 +51,12 @@ extension Word {
 
 struct WordView: View {
     @Binding var word: Word
+    let letterSize: CGFloat
 
     var body: some View {
         HStack {
             ForEach(Array($word.content.enumerated()), id: \.element.id) { idx, $letter in
-                LetterView(letter: $letter, size: 30)
+                LetterView(letter: $letter, size: letterSize)
                     .animation(.easeOut(duration: 0.7).delay(Double(idx) * 0.5), value: letter.angle == 0)
             }
         }
@@ -66,6 +67,6 @@ struct WordView_Previews: PreviewProvider {
     @State static var word = Word("ABCDE")
 
     static var previews: some View {
-        WordView(word: $word)
+        WordView(word: $word, letterSize: 30)
     }
 }
