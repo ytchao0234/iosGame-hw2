@@ -64,9 +64,7 @@ struct HelpView: View {
                             Text("After each guess, the color of the tiles will change to show how close your guess was to the word.")
                         }
 
-                        Rectangle()
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 2, maxHeight: 2)
-                            .foregroundColor(.secondary)
+                        DividerView()
                         
                         Group {
                             Text("Example")
@@ -94,10 +92,8 @@ struct HelpView: View {
                             }
                             .font(.caption)
                         }
-                        
-                        Rectangle()
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 2, maxHeight: 2)
-                            .foregroundColor(.secondary)
+
+                        DividerView()
                         
                         Text("A new WORDLE will be available each minute!")
                             .fontWeight(.bold)
@@ -114,5 +110,13 @@ struct HelpView: View {
 struct HelpView_Previews: PreviewProvider {
     static var previews: some View {
         HelpView(game: GameViewModel(), show: .constant(true))
+    }
+}
+
+struct DividerView: View {
+    var body: some View {
+        Rectangle()
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 2, maxHeight: 2)
+            .foregroundColor(.secondary)
     }
 }

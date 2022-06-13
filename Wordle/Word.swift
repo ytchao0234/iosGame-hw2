@@ -12,9 +12,7 @@ struct Word: Identifiable {
     var source: String = String()
     var content: Array<Letter> = [Letter]()
     var length: Int = 0
-    
-    init() {}
-    
+
     init(_ source: String) {
         self.source = source
 
@@ -29,6 +27,11 @@ struct Word: Identifiable {
         if index >= 0, index < content.count {
             content[index].content = value
         }
+
+        source = ""
+        for letter in content {
+            source += String(letter.content)
+        }
     }
     
     mutating func setJudge(_ index: Int, value: Letter.JUDGE) {
@@ -39,6 +42,17 @@ struct Word: Identifiable {
     
     func contains(_ value: Letter) -> Bool {
         return content.firstIndex(where: {$0.content == value.content}) != nil
+    }
+    
+    func isInList() -> Bool {
+        if let asset = NSDataAsset(name: "animal" + "\(self.source.count)"),
+            let content = String(data: asset.data, encoding: .utf8) {
+            let wordList = content.split(separator: "\n")
+            return wordList.contains(Substring(self.source.lowercased()))
+        }
+        else {
+            return false
+        }
     }
 }
 

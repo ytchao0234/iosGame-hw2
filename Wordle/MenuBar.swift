@@ -40,7 +40,7 @@ struct MenuBar: View {
                 type = .help
                 showSheet.toggle()
             } label: {
-                buttonLabel(imageName: "questionmark.circle")
+                buttonLabel(imageName: "questionmark.circle.fill")
             }
 
             Spacer()
@@ -50,13 +50,13 @@ struct MenuBar: View {
                     type = .summary
                     showSheet.toggle()
                 } label: {
-                    buttonLabel(imageName: "chart.bar")
+                    buttonLabel(imageName: "chart.bar.fill")
                 }
                 Button {
                     type = .setting
                     showSheet.toggle()
                 } label: {
-                    buttonLabel(imageName: "gearshape")
+                    buttonLabel(imageName: "gearshape.fill")
                 }
             }
             .padding(.trailing, 5)
@@ -65,6 +65,12 @@ struct MenuBar: View {
         .padding([.top, .horizontal], 10)
         .sheet(isPresented: $showSheet) { [type] in
             sheetContent(type)
+        }
+        .onChange(of: game.property[game.thisLength].gameOver) { newValue in
+            if newValue && !showSheet {
+                self.type = .summary
+                self.showSheet = true
+            }
         }
     }
 }

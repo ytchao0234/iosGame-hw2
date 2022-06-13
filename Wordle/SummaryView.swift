@@ -23,7 +23,19 @@ struct SummaryView: View {
                     .padding(.top)
             }
             Spacer()
-            Text("SummaryView")
+            
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack {
+                    if game.property[game.thisLength].gameOver {
+                        ResultView(game: game)
+
+                        DividerView()
+                            .padding(5)
+                    }
+                    Text("SummaryView")
+                }
+            }
+            .padding([.top, .horizontal])
             Spacer()
         }
     }

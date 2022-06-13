@@ -8,23 +8,34 @@
 import SwiftUI
 
 struct Game {
-    var answer = Word()
+    var answer: Word
     var wordList: Array<Word> = [Word]()
     
     var thisLetter: Int = 0
     var thisTurn: Int = 0
     var gameOver: Bool = false
     var judgement: JUDGE = .NONE
-    
+    var showAlert: Bool = false
+    var alertMessage: String = ""
+
     init(answerLength: Int = 4) {
-        self.answer = Word(self.getAnswer(answerLength: answerLength))
+        self.answer = Word(Game.getAnswer(answerLength: answerLength))
 
         for _ in 0 ..< Game.guessLimit {
             self.wordList.append(Word.getEmptyWord(length: answerLength))
         }
     }
     
-    func getAnswer(answerLength: Int) -> String {
+    
+}
+
+extension Game {
+    static let guessLimit: Int = 6
+    enum JUDGE {
+        case NONE, WIN, LOSE
+    }
+    
+    static func getAnswer(answerLength: Int) -> String {
         var answer: String = ""
 
         if let asset = NSDataAsset(name: "animal" + "\(answerLength)"),
@@ -40,13 +51,6 @@ struct Game {
         }
 
         return answer.uppercased()
-    }
-}
-
-extension Game {
-    static let guessLimit: Int = 6
-    enum JUDGE {
-        case NONE, WIN, LOSE
     }
 }
 
@@ -81,12 +85,9 @@ struct GameView: View {
                 .clipped()
                 .ignoresSafeArea()
         )
-        .alert(game.property[game.thisLength].judgement == .WIN ? "Bingo!" : "answer:\n\(game.property[game.thisLength].answer.source)", isPresented: $game.property[game.thisLength].gameOver) {
-            Button("OK") {
-                game.restart()
-            }
+        .alert(game.property[game.thisLength].alertMessage, isPresented: $game.property[game.thisLength].showAlert) {
+            Button("OK") {}
         }
-
     }
 }
 
@@ -136,6 +137,11 @@ class GameViewModel: ObservableObject {
     
     func judge() {
         if property[thisLength].thisLetter < self.setting.answerLength {
+            return
+        }
+        if !property[thisLength].wordList[property[thisLength].thisTurn].isInList() {
+            property[thisLength].showAlert = true
+            property[thisLength].alertMessage = "Not in Word List"
             return
         }
         
