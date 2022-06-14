@@ -46,7 +46,7 @@ struct LetterView: View {
 
     var body: some View {
         ZStack {
-            Text(letter.angle == 0 ? String(letter.content) : "")
+            Text(letter.angle < 90 ? String(letter.content) : "")
                 .font(.title)
                 .frame(width: size, height: size)
                 .padding(10)

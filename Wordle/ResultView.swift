@@ -10,11 +10,15 @@ import SwiftUI
 struct ResultView: View {
     @ObservedObject var game: GameViewModel
     @State private var showSheet: Bool = false
+    @State private var isCopyed: Bool = false
+    @AppStorage("result3") var result3: String = String("0\n0\n0\n0\n0\n0\n0\n0")
+    @AppStorage("result4") var result4: String = String("0\n0\n0\n0\n0\n0\n0\n0")
+    @AppStorage("result5") var result5: String = String("0\n0\n0\n0\n0\n0\n0\n0")
     
     func wordEmoji(_ word: Word, previous: String = "") -> String {
         var result: String = previous + ((previous.count > 0) ? "\n" : "")
 
-        for (idx, letter) in word.content.enumerated() {
+        for letter in word.content {
             switch(letter.judge) {
             case .CORRECT:
                 result += "🟩"
@@ -53,19 +57,69 @@ struct ResultView: View {
                 .background(Color.secondary)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
             
-            Button {
-                self.showSheet = true
-            } label: {
-                Label("SHARE", systemImage: "square.and.arrow.up")
-                    .foregroundColor(.white)
-                    .padding(10)
-                    .background(.green)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-            }
-            .sheet(isPresented: $showSheet) {
-                ShareView(result: result, judgement: game.property[game.thisLength].judgement == .WIN, answer: game.property[game.thisLength].answer.source)
+            HStack {
+                let text = "\(game.property[game.thisLength].judgement == .WIN ? "Bingo!" : "Failed...")\nanswer: \(game.property[game.thisLength].answer.source)\n\n\(result)"
+                Button {
+                    self.showSheet = true
+                } label: {
+                    Label("SHARE", systemImage: "square.and.arrow.up")
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .background(.green)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                }
+                .sheet(isPresented: $showSheet) {
+                    ShareView(text: text)
+                }
+                Button {
+                    UIPasteboard.general.string = text
+                    self.isCopyed = true
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.isCopyed = false
+                    }
+                } label: {
+                    ZStack(alignment: .trailing) {
+                        Label("COPY", systemImage: "doc.on.doc")
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(.blue)
+                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                        if self.isCopyed {
+                            Image(systemName: "checkmark.circle")
+                                .offset(x: 25)
+                                .transition(.offset(x: -15).combined(with: .opacity))
+                        }
+                    }
+                    .animation(.easeOut(duration: 0.5), value: self.isCopyed)
+                }
             }
             .padding()
+        }
+        .onAppear {
+            var res = ""
+            
+            for idx in Array(result.split(separator: "\n")).indices {
+                res += (res.count > 0 ? "\n" : "") + game.property[game.thisLength].wordList[idx].source
+            }
+            
+            res = result + " " + res + " " +
+                  game.property[game.thisLength].answer.source + " " +
+                  (game.property[game.thisLength].judgement == .WIN ? "WIN" : "LOSE")
+            
+            switch(game.thisLength) {
+            case 0:
+                self.result3 = res + " " + game.property[0].statistics
+                print("result3: ", self.result3)
+            case 1:
+                self.result4 = res + " " + game.property[1].statistics
+                print("result4: ", self.result4)
+            case 2:
+                self.result5 = res + " " + game.property[2].statistics
+                print("result5: ", self.result5)
+            default:
+                break
+            }
         }
     }
 }

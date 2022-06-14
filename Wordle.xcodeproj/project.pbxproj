@@ -87,9 +87,9 @@
 				032ED34A2854D0FD007A6AFC /* HelpView.swift */,
 				032ED34C2854D120007A6AFC /* SummaryView.swift */,
 				032ED35028577AC7007A6AFC /* ResultView.swift */,
+				032ED3522857851E007A6AFC /* ShareView.swift */,
 				0389A37827EF04C00007A24F /* Assets.xcassets */,
 				0389A37A27EF04C00007A24F /* Preview Content */,
-				032ED3522857851E007A6AFC /* ShareView.swift */,
 			);
 			path = Wordle;
 			sourceTree = "<group>";

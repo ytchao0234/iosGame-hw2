@@ -11,13 +11,7 @@ import LinkPresentation
 
 struct ShareView: UIViewControllerRepresentable {
     typealias UIViewControllerType = UIActivityViewController
-    let result: String
-    let judgement: Bool
-    let answer: String
-
-    var text: String {
-        "\(judgement ? "Bingo!" : "Failed...")\nanswer: \(answer)\n\n\(result)"
-    }
+    let text: String
 
     func makeUIViewController(context: Context) -> UIActivityViewController {
         let controller = UIActivityViewController(activityItems: [text], applicationActivities: nil)
@@ -37,7 +31,7 @@ struct ShareView_Previews: PreviewProvider {
         .sheet(isPresented: $isSharePresented, onDismiss: {
             print("Dismiss")
         }, content: {
-            ShareView(result: "", judgement: true, answer: "")
+            ShareView(text: "")
         })
     }
 }
