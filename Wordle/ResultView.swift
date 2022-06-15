@@ -110,13 +110,10 @@ struct ResultView: View {
             switch(game.thisLength) {
             case 0:
                 self.result3 = res + " " + game.property[0].statistics
-                print("result3: ", self.result3)
             case 1:
                 self.result4 = res + " " + game.property[1].statistics
-                print("result4: ", self.result4)
             case 2:
                 self.result5 = res + " " + game.property[2].statistics
-                print("result5: ", self.result5)
             default:
                 break
             }

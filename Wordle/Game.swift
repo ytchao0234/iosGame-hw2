@@ -262,7 +262,7 @@ class GameViewModel: ObservableObject {
     }
     
     func restart(idx: Int) {
-        property[idx] = Game(playedTimes: property[idx].playedTimes, score: property[idx].score)
+        property[idx] = Game(answerLength: idx + Setting.minimumLength, playedTimes: property[idx].playedTimes, score: property[idx].score)
         keyboard[idx] = Keyboard()
     }
     

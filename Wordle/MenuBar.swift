@@ -38,7 +38,6 @@ struct MenuBar: View {
     }
     
     func gameOver(idx: Int) {
-        print("game.countDown: \(idx)")
         game.countDown(idx: idx)
 
         if game.property[idx].countDownTime == game.property[idx].timeLimit {
